@@ -11,11 +11,18 @@ import Combine
 
 @Observable
 @MainActor class NewsViewModel: ObservableObject {
-    var article: Article = Article(data: [])
+    var newsModel: NewsModel = NewsModel(data: [])
     var isLoading: Bool = false
     var errorMessage: String?
     
     private let apiKey = "AZNAaUpd2ctqIZaYlH5CNqjVq3I2RjWygG6e0JWe"
+    
+    
+    init() {
+        Task {
+            await fetchHeadlines()
+        }
+    }
     
     func fetchHeadlines() async  {
         isLoading = true
@@ -31,8 +38,8 @@ import Combine
         
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            let decoded = try JSONDecoder().decode(Article.self, from: data)
-            self.article = decoded
+            let decoded = try JSONDecoder().decode(NewsModel.self, from: data)
+            self.newsModel = decoded
         } catch {
             errorMessage = "Failed to load news: \(error.localizedDescription)"
         }

@@ -11,7 +11,7 @@ import SwiftUI
 struct TheNewsAPIApp: App {
     var body: some Scene {
         WindowGroup {
-            NewsHeadlinesview()
+            NewsHeadlinesView()
         }
     }
 }
